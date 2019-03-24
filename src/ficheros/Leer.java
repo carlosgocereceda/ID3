@@ -36,12 +36,17 @@ public class Leer {
 		while ((cadena = b.readLine()) != null) {
 			String[] valores = cadena.split(",");
 			for(int i = 0; i < valores.length; i++) {
-				Atributo atributo = tabla.getTabla().get(i);
-				atributo.addValor(valores[i]);
+				if(!valores[i].equalsIgnoreCase("")) {
+					Atributo atributo = tabla.getTabla().get(i);
+					atributo.addValor(valores[i]);
+				}		
 			}
 			System.out.println(cadena);
 		}
 		b.close();
+	}
+	public Tabla getTabla() {
+		return this.tabla;
 	}
 
 }

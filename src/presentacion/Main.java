@@ -3,6 +3,7 @@ package presentacion;
 import java.io.IOException;
 
 import ficheros.Leer;
+import negocio.ID3;
 
 public class Main {
 
@@ -11,6 +12,7 @@ public class Main {
 		try {
 			l.leerAtributos("AtributosJuego.txt");
 			l.leerValores("Juego.txt");
+			ID3 id3 = new ID3(l.getTabla());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
