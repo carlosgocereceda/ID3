@@ -7,10 +7,17 @@ public class ID3 {
 	
 	public ID3(Tabla tabla) {
 		//Le paso el atributo que quiero calcular y la ultima columna donde dice si o no
+		double meritoMenor = 0.0;
+		String meritoMenorS = "";
 		for(int i = 0; i < tabla.getTabla().size()-1; i++) {
-			merito(tabla.getTabla().get(i), tabla.getTabla().get(tabla.getTabla().size()-1));
+			double aux = merito(tabla.getTabla().get(i), tabla.getTabla().get(tabla.getTabla().size()-1));
+			System.out.println("--- " + tabla.getTabla().get(i).getTitulo() + " " + aux);
+			if(aux < meritoMenor) {
+				meritoMenor = aux;
+				meritoMenorS = tabla.getTabla().get(i).getTitulo();
+				
+			}
 		}
-		//merito(tabla.getTabla().get(0), tabla.getTabla().get(tabla.getTabla().size()-1));
 	}
 	
 	private double merito(Atributo atributo, Atributo res) {
@@ -39,9 +46,9 @@ public class ID3 {
 	private double infor(double p, double n) {
 		double pValue = 0.0, nValue = 0.0;
 		if(p != 0)
-			pValue = -p * Math.log(p);
+			pValue = -p * (Math.log(p)/Math.log(2));
 		if(n != 0)
-			nValue = -n * Math.log(n);
+			nValue = -n * (Math.log(n)/Math.log(2));
 		return pValue + nValue;
 	}
 }
