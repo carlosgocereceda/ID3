@@ -12,7 +12,8 @@ public class Main {
 		try {
 			l.leerAtributos("AtributosJuego.txt");
 			l.leerValores("Juego.txt");
-			ID3 id3 = new ID3(l.getTabla());
+			ID3 id3 = new ID3();
+			id3.algoritmo(l.getTabla());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

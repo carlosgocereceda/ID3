@@ -24,7 +24,7 @@ public class Atributo {
 	}
 
 	public void setValores(ArrayList<String> valores) {
-		this.valores = valores;
+		this.valores = new ArrayList<String>(valores);
 	}
 	public void addValor(String valor) {
 		valores.add(valor);

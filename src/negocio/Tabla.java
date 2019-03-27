@@ -13,9 +13,17 @@ public class Tabla {
 		return tabla;
 	}
 	public void setTabla(ArrayList<Atributo> tabla) {
-		this.tabla = tabla;
+		for(int i = 0; i < tabla.size(); i++) {
+			this.tabla.add(new Atributo(tabla.get(i).getTitulo()));
+			this.tabla.get(i).setValores(tabla.get(i).getValores());
+		}
 	}
 	public void addAtributo(Atributo atributo) {
 		this.tabla.add(atributo);
+	}
+	public void removeFila(int pos) {
+		for(int i = 0; i < tabla.size(); i++) {
+			tabla.get(i).getValores().remove(pos);
+		}
 	}
 }
