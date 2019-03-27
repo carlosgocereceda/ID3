@@ -6,7 +6,9 @@ import java.util.Map;
 
 public class ID3 {
 	
-	public void algoritmo(Tabla tabla) {
+	private ArrayList<Nodo> arbol = new ArrayList<Nodo>();
+	
+	public void algoritmo(Tabla tabla, Nodo padre) {
 		//Le paso el atributo que quiero calcular y la ultima columna donde dice si o no
 		double meritoMenor = Double.POSITIVE_INFINITY;
 		String meritoMenorS = "";
@@ -19,8 +21,19 @@ public class ID3 {
 				System.out.println("He elegido " + tabla.getTabla().get(i).getTitulo() + " " + aux);
 			}
 		}
-		construyeTabla(tabla, meritoMenorS);
-		
+		//ArrayList<Tabla> tablas = construyeTablas(tabla, meritoMenorS);
+		ArrayList<Nodo> nodos = construyeTablas(tabla, meritoMenorS);
+		for(int i = 0; i < nodos.size(); i++) {
+			nodos.get(i).setPadre(padre);
+			arbol.add(nodos.get(i));
+		}
+		for(int i = 0; i < nodos.size(); i++) {
+			if(nodos.get(i).getAtributo().equalsIgnoreCase("Viento")) {
+				System.out.println("HUMEDAD");
+			}
+			if(!decision(nodos.get(i).getTabla()))
+				algoritmo(nodos.get(i).getTabla(), nodos.get(i));
+		}
 		
 	}
 	
@@ -54,8 +67,9 @@ public class ID3 {
 		return pValue + nValue;
 	}
 	
-	public ArrayList<Tabla> construyeTabla(Tabla tabla, String atributo) {
+	public ArrayList<Nodo> construyeTablas(Tabla tabla, String atributo) {
 		ArrayList<Tabla> tablas = new ArrayList<Tabla>();
+		ArrayList<Nodo> nodos = new ArrayList<>();
 		Atributo atributoBorrar = null;
 		ArrayList<String> valores = new ArrayList<>();
 		for(int i = 0; i < tabla.getTabla().size(); i++) {
@@ -91,7 +105,30 @@ public class ID3 {
 				}
 			}
 			tablas.add(tablaNueva);
+			Nodo nodo = new Nodo();
+			nodo.setTabla(tablaNueva);
+			nodo.setCamino(valores.get(i));
+			nodo.setAtributo(atributo);
+			nodos.add(nodo);
 		}
-		return tablas;
+		return nodos;
+	}
+	private boolean decision(Tabla tabla) {
+		//Aqui miro si todos son sies o noes
+		int res = -1; //0 -> No 1 -> Si
+		for(int i = 0; i < tabla.getTabla().get(tabla.getTabla().size()-1).getValores().size(); i++) {
+			if(tabla.getTabla().get(tabla.getTabla().size()-1).getValores().get(i).equalsIgnoreCase("si")) {
+				if(res == -1) res = 1;
+				else if(res == 0) return false;
+			}
+			else {
+				if(res == -1) res = 0;
+				else if(res == 1) return false;
+			}
+		}
+		return true;
+	}
+	public ArrayList<Nodo> getArbol(){
+		return this.arbol;
 	}
 }
