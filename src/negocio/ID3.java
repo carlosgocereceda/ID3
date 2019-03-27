@@ -31,8 +31,21 @@ public class ID3 {
 			if(nodos.get(i).getAtributo().equalsIgnoreCase("Viento")) {
 				System.out.println("HUMEDAD");
 			}
-			if(!decision(nodos.get(i).getTabla()))
+			int decision = decision(nodos.get(i).getTabla());
+			if(decision == -1)
 				algoritmo(nodos.get(i).getTabla(), nodos.get(i));
+			else if(decision == 1){
+				Nodo nodo = new Nodo();
+				nodo.setPadre(nodos.get(i));
+				nodo.setAtributo("SI");
+				arbol.add(nodo);
+			}
+			else {
+				Nodo nodo = new Nodo();
+				nodo.setPadre(nodos.get(i));
+				nodo.setAtributo("NO");
+				arbol.add(nodo);
+			}
 		}
 		
 	}
@@ -113,20 +126,20 @@ public class ID3 {
 		}
 		return nodos;
 	}
-	private boolean decision(Tabla tabla) {
+	private int decision(Tabla tabla) {
 		//Aqui miro si todos son sies o noes
 		int res = -1; //0 -> No 1 -> Si
 		for(int i = 0; i < tabla.getTabla().get(tabla.getTabla().size()-1).getValores().size(); i++) {
 			if(tabla.getTabla().get(tabla.getTabla().size()-1).getValores().get(i).equalsIgnoreCase("si")) {
 				if(res == -1) res = 1;
-				else if(res == 0) return false;
+				else if(res == 0) return -1;
 			}
 			else {
 				if(res == -1) res = 0;
-				else if(res == 1) return false;
+				else if(res == 1) return -1;
 			}
 		}
-		return true;
+		return res;
 	}
 	public ArrayList<Nodo> getArbol(){
 		return this.arbol;
