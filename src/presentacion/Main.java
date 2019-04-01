@@ -1,8 +1,24 @@
 package presentacion;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+import javax.swing.JFrame;
+
+import edu.uci.ics.jung.algorithms.layout.CircleLayout;
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.algorithms.layout.TreeLayout;
+import edu.uci.ics.jung.graph.DelegateForest;
+import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
+import edu.uci.ics.jung.graph.Forest;
+import edu.uci.ics.jung.graph.Graph;
+import edu.uci.ics.jung.graph.SparseMultigraph;
+import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import ficheros.Leer;
 import negocio.ID3;
 import negocio.Nodo;
@@ -23,7 +39,57 @@ public class Main {
 					padre = arbol.get(i).getPadre().getAtributo() + "->" + arbol.get(i).getPadre().getCamino();
 				System.out.println(arbol.get(i).getCamino() + " " + arbol.get(i).getAtributo() + " padre: " + padre);
 			}
+			
+			
+			Graph<String, String> g = new DelegateForest<String, String>();
+			HashMap<Nodo, String> aux = new HashMap<>();
+			for(int i = 0; i < arbol.size(); i++) {
+				if(!aux.containsKey(arbol.get(i).getPadre())){
+					g.addVertex((String) arbol.get(i).getAtributo());
+					aux.put(arbol.get(i), arbol.get(i).getAtributo());
+				}
+				else {
+					if(arbol.get(i).getAtributo().equalsIgnoreCase("SI") || 
+							arbol.get(i).getAtributo().equalsIgnoreCase("NO")) {
+						g.addVertex((String) arbol.get(i).getAtributo() + i);
+						g.addEdge(arbol.get(i).getPadre().getCamino() + i,
+								aux.get(arbol.get(i).getPadre()),
+								arbol.get(i).getAtributo() + i);
+						aux.put(arbol.get(i), arbol.get(i).getAtributo() + i);
+					}
+					else {
+						g.addVertex((String) arbol.get(i).getAtributo());
+						g.addEdge(arbol.get(i).getPadre().getCamino() + i,
+								aux.get(arbol.get(i).getPadre()),
+								arbol.get(i).getAtributo());
+						aux.put(arbol.get(i), arbol.get(i).getAtributo());
+					}
+					
+					
+				}
+			}
 			//Vista vista = new Vista(arbol);
+			Layout<String, String> layout = new TreeLayout<>((Forest<String, String>) g);;
+			//layout.setSize(new Dimension(300, 300));
+			VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
+			vv.setPreferredSize(new Dimension(500, 500));
+			vv.setSize(500, 500);
+			// Show vertex and edge labels
+			vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
+			vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
+			// Create a graph mouse and add it to the visualization component
+			DefaultModalGraphMouse gm = new DefaultModalGraphMouse();
+			gm.setMode(ModalGraphMouse.Mode.TRANSFORMING);
+			vv.setGraphMouse(gm);
+			// Add the mouses mode key listener to work it needs to be added to the
+			// visualization component
+			vv.addKeyListener(gm.getModeKeyListener());
+			JFrame frame = new JFrame("Interactive Graph View 2");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setSize(500, 500);
+			frame.getContentPane().add(vv);
+			//frame.pack();
+			frame.setVisible(true);
 			System.out.println("PAUSA");
 		} catch (IOException e) {
 			e.printStackTrace();
