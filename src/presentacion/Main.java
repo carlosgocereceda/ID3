@@ -104,6 +104,8 @@ public class Main {
 			JFrame datos = new JFrame();
 			
 			JPanel panel = new JPanel();
+			JButton ok = new JButton("OK");
+			panel.add(ok);
 			JButton boton = new JButton("SIMULAR");
 			panel.add(boton);
 		
