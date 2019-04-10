@@ -8,9 +8,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -101,7 +104,7 @@ public class Main {
 			JFrame datos = new JFrame();
 			
 			JPanel panel = new JPanel();
-			JButton boton = new JButton();
+			JButton boton = new JButton("SIMULAR");
 			panel.add(boton);
 		
 			datos.add(panel);
@@ -123,16 +126,48 @@ public class Main {
 	            	String viento = (String) jt.getModel().getValueAt(0, 3);
 	            	boolean encontrado = false;
 	            	ArrayList<Nodo> raices = new ArrayList<Nodo>();
+	            	Queue<Nodo> cola = new LinkedList();
 	            	for(int i = 0; i < arbol.size(); i++) {
-	            		if(arbol.get(i).getPadre() == null) raices.add(arbol.get(i));
+	            		if(arbol.get(i).getPadre() == null) cola.add(arbol.get(i));
 	    			}
+	            	Nodo aux;
+	            	while(!encontrado) {
+	            		aux = cola.poll();
+	            		if(aux.getAtributo().equalsIgnoreCase("NO")) {
+	            			JOptionPane.showMessageDialog(null, "NO");
+	            			encontrado = true;
+	            		}
+	            		else if(aux.getAtributo().equalsIgnoreCase("SI")) {
+	            			JOptionPane.showMessageDialog(null, "SI");
+	            			encontrado = true;
+	            		}
+	            		else {
+	            			if(aux.getAtributo().equalsIgnoreCase("TiempoExterior") &&
+		            				aux.getCamino().equalsIgnoreCase(tiemp_ext)) {
+		            			cola.removeAll(cola);
+		            			cola.addAll(aux.getHijos());
+		            		}
+		            		else if(aux.getAtributo().equalsIgnoreCase("Temperatura") &&
+		            				aux.getCamino().equalsIgnoreCase(temp)) {
+		            			cola.removeAll(cola);
+		            			cola.addAll(aux.getHijos());
+		            		}
+		            		else if(aux.getAtributo().equalsIgnoreCase("Humedad") &&
+		            				aux.getCamino().equalsIgnoreCase(hum)) {
+		            			cola.removeAll(cola);
+		            			cola.addAll(aux.getHijos());
+		            		}
+		            		else if(aux.getAtributo().equalsIgnoreCase("Viento") &&
+		            				aux.getCamino().equalsIgnoreCase(viento)) {
+		            			cola.removeAll(cola);
+		            			cola.addAll(aux.getHijos());
+		            		}
+	            		}
+	            		
+	            	}
 	                System.out.println("boton presionado " + raices.size());
 	            }
 	        });
-			
-		    
-		    
-		    
 			datos.setSize(700, 700);
 			datos.setVisible(true);
 			frame.setVisible(true);
