@@ -26,6 +26,7 @@ public class ID3 {
 		for(int i = 0; i < nodos.size(); i++) {
 			nodos.get(i).setPadre(padre);
 			arbol.add(nodos.get(i));
+			if(padre != null)padre.addHijo(nodos.get(i));
 		}
 		for(int i = 0; i < nodos.size(); i++) {
 			if(nodos.get(i).getAtributo().equalsIgnoreCase("Viento")) {
@@ -37,12 +38,14 @@ public class ID3 {
 			else if(decision == 1){
 				Nodo nodo = new Nodo();
 				nodo.setPadre(nodos.get(i));
+				nodos.get(i).addHijo(nodo);
 				nodo.setAtributo("SI");
 				arbol.add(nodo);
 			}
 			else {
 				Nodo nodo = new Nodo();
 				nodo.setPadre(nodos.get(i));
+				nodos.get(i).addHijo(nodo);
 				nodo.setAtributo("NO");
 				arbol.add(nodo);
 			}

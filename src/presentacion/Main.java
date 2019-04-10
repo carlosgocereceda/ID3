@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -115,7 +116,17 @@ public class Main {
 		    boton.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	                System.out.println("boton presionado");
+	            	jt.getModel().getValueAt(0, 0);
+	            	String tiemp_ext = (String) jt.getModel().getValueAt(0, 0);
+	            	String temp = (String) jt.getModel().getValueAt(0, 1);
+	            	String hum = (String) jt.getModel().getValueAt(0, 2);
+	            	String viento = (String) jt.getModel().getValueAt(0, 3);
+	            	boolean encontrado = false;
+	            	ArrayList<Nodo> raices = new ArrayList<Nodo>();
+	            	for(int i = 0; i < arbol.size(); i++) {
+	            		if(arbol.get(i).getPadre() == null) raices.add(arbol.get(i));
+	    			}
+	                System.out.println("boton presionado " + raices.size());
 	            }
 	        });
 			

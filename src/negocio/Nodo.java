@@ -1,17 +1,21 @@
 package negocio;
 
+import java.util.ArrayList;
+
 public class Nodo {
 
 	private Nodo padre;
 	private Tabla tabla;
 	private String camino;
 	private String atributo;
+	private ArrayList<Nodo> hijos;
 	
 	public Nodo() {
 		padre = null;
 		tabla = null;
 		camino = "";
 		atributo = "";
+		hijos = new ArrayList<>();
 	}
 
 	public Nodo getPadre() {
@@ -44,6 +48,17 @@ public class Nodo {
 
 	public void setAtributo(String atributo) {
 		this.atributo = atributo;
+	}
+
+	public ArrayList<Nodo> getHijos() {
+		return hijos;
+	}
+
+	public void setHijos(ArrayList<Nodo> hijos) {
+		this.hijos = hijos;
+	}
+	public void addHijo(Nodo hijo) {
+		this.hijos.add(hijo);
 	}
 	
 	
