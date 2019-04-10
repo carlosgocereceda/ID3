@@ -1,11 +1,18 @@
 package presentacion;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.Layout;
@@ -69,11 +76,10 @@ public class Main {
 				}
 			}
 			//Vista vista = new Vista(arbol);
-			Layout<String, String> layout = new TreeLayout<>((Forest<String, String>) g);;
-			//layout.setSize(new Dimension(300, 300));
+			Layout<String, String> layout = new TreeLayout<>((Forest<String, String>) g);
 			VisualizationViewer<String, String> vv = new VisualizationViewer<String, String>(layout);
-			vv.setPreferredSize(new Dimension(500, 500));
-			vv.setSize(500, 500);
+			vv.setPreferredSize(new Dimension(800, 800));
+			
 			// Show vertex and edge labels
 			vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 			vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
@@ -84,13 +90,41 @@ public class Main {
 			// Add the mouses mode key listener to work it needs to be added to the
 			// visualization component
 			vv.addKeyListener(gm.getModeKeyListener());
+			vv.setSize(1000, 1000);
 			JFrame frame = new JFrame("Interactive Graph View 2");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setSize(500, 500);
+			frame.setSize(400, 400);
 			frame.getContentPane().add(vv);
 			//frame.pack();
+			frame.setLayout(new BorderLayout());
+			JFrame datos = new JFrame();
+			
+			JPanel panel = new JPanel();
+			JButton boton = new JButton();
+			panel.add(boton);
+		
+			datos.add(panel);
+			//tabla
+			String data[][]={ {"","","", ""}};
+		    String column[]={"TIEMPO EXTERIOR","TEMPERATURA","HUMEDAD", "VIENTO"};         
+		    JTable jt=new JTable(data,column);
+		    JScrollPane sp=new JScrollPane(jt);    
+		    panel.add(sp);
+		    
+		    //ACTION LISTENER DEL BOTON
+		    boton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                System.out.println("boton presionado");
+	            }
+	        });
+			
+		    
+		    
+		    
+			datos.setSize(700, 700);
+			datos.setVisible(true);
 			frame.setVisible(true);
-			System.out.println("PAUSA");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
