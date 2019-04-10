@@ -1,7 +1,9 @@
 package presentacion;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -12,7 +14,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -103,29 +107,71 @@ public class Main {
 			frame.setLayout(new BorderLayout());
 			JFrame datos = new JFrame();
 			
+		
+			
 			JPanel panel = new JPanel();
+			panel.setSize(new Dimension(200,200));
+			panel.setLayout(new GridLayout(10,1));
 			JButton ok = new JButton("OK");
 			panel.add(ok);
 			JButton boton = new JButton("SIMULAR");
 			panel.add(boton);
 		
 			datos.add(panel);
+			//combo
+			JLabel l1 = new JLabel("Tiempo exterior");
+			l1.setBackground(Color.LIGHT_GRAY);
+			l1.setOpaque(true);
+			JComboBox tiempo_exterior = new JComboBox();
+			tiempo_exterior.addItem("soleado");
+			tiempo_exterior.addItem("nublado");
+			tiempo_exterior.addItem("lluvioso");
+			panel.add(l1);
+			panel.add(tiempo_exterior);
+			
+			JLabel l2 = new JLabel("Temperatura");
+			l2.setBackground(Color.LIGHT_GRAY);
+			l2.setOpaque(true);
+			JComboBox temperatura = new JComboBox();
+			temperatura.addItem("caluroso");
+			temperatura.addItem("templado");
+			temperatura.addItem("frio");
+			panel.add(l2);
+			panel.add(temperatura);
+			
+			
+			JLabel l3 = new JLabel("Humedad");
+			l3.setBackground(Color.LIGHT_GRAY);
+			l3.setOpaque(true);
+			JComboBox humedad = new JComboBox();
+			humedad.addItem("alta");
+			humedad.addItem("normal");
+			panel.add(l3);
+			panel.add(humedad);
+			
+			JLabel l4 = new JLabel("Viento");
+			l4.setOpaque(true);
+			l4.setBackground(Color.LIGHT_GRAY);
+			JComboBox viento = new JComboBox();
+			viento.addItem("falso");
+			viento.addItem("verdad");
+			panel.add(l4);
+			panel.add(viento);
 			//tabla
-			String data[][]={ {"","","", ""}};
+			/*String data[][]={ {"","","", ""}};
 		    String column[]={"TIEMPO EXTERIOR","TEMPERATURA","HUMEDAD", "VIENTO"};         
 		    JTable jt=new JTable(data,column);
 		    JScrollPane sp=new JScrollPane(jt);    
-		    panel.add(sp);
+		    panel.add(sp);*/
 		    
 		    //ACTION LISTENER DEL BOTON
 		    boton.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
-	            	jt.getModel().getValueAt(0, 0);
-	            	String tiemp_ext = (String) jt.getModel().getValueAt(0, 0);
-	            	String temp = (String) jt.getModel().getValueAt(0, 1);
-	            	String hum = (String) jt.getModel().getValueAt(0, 2);
-	            	String viento = (String) jt.getModel().getValueAt(0, 3);
+	            	String tiemp_ext = (String) tiempo_exterior.getSelectedItem();
+	            	String temp = (String) temperatura.getSelectedItem();
+	            	String hum = (String) humedad.getSelectedItem();
+	            	String vient = (String) viento.getSelectedItem() ;
 	            	boolean encontrado = false;
 	            	ArrayList<Nodo> raices = new ArrayList<Nodo>();
 	            	Queue<Nodo> cola = new LinkedList();
@@ -160,7 +206,7 @@ public class Main {
 		            			cola.addAll(aux.getHijos());
 		            		}
 		            		else if(aux.getAtributo().equalsIgnoreCase("Viento") &&
-		            				aux.getCamino().equalsIgnoreCase(viento)) {
+		            				aux.getCamino().equalsIgnoreCase(vient)) {
 		            			cola.removeAll(cola);
 		            			cola.addAll(aux.getHijos());
 		            		}
