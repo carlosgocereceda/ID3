@@ -112,8 +112,6 @@ public class Main {
 			JPanel panel = new JPanel();
 			panel.setSize(new Dimension(200,200));
 			panel.setLayout(new GridLayout(10,1));
-			JButton ok = new JButton("OK");
-			panel.add(ok);
 			JButton boton = new JButton("SIMULAR");
 			panel.add(boton);
 		
